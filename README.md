@@ -12,13 +12,13 @@ Live [https://sulky-forger.glitch.me/](https://sulky-forger.glitch.me/)
 ## Example output:
 ```
 { 
-  "original_url":"https://sulky-forger.glitch.me/https://www.mongodb.com/",  
-  "short_url":"https://sulky-forger.glitch.me/666" 
+  "url":"https://sulky-forger.glitch.me/https://www.mongodb.com/",  
+  "short_url":"https://sulky-forger.glitch.me/3" 
 }
 ```
 
 ## Usage:
-`https://sulky-forger.glitch.me/666`
+`https://sulky-forger.glitch.me/3`
 
 ## Will redirect to:
 `https://www.mongodb.com/`
