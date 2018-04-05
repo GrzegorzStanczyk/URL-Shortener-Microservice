@@ -13,12 +13,12 @@ Live [https://sulky-forger.glitch.me/](https://sulky-forger.glitch.me/)
 ```
 { 
   "url":"https://sulky-forger.glitch.me/https://www.mongodb.com/",  
-  "short_url":"https://sulky-forger.glitch.me/3" 
+  "short_url":"https://sulky-forger.glitch.me/2" 
 }
 ```
 
 ## Usage:
-`https://sulky-forger.glitch.me/3`
+`https://sulky-forger.glitch.me/2`
 
 ## Will redirect to:
 `https://www.mongodb.com/`

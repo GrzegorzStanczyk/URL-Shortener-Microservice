@@ -1,8 +1,26 @@
 const validUrl = require('valid-url');
 
+function getNextSequence(counter, dbs, callback) {
+ dbs.production.collection('counters').findAndModify(
+    { "counter": counter },
+     [],
+    { $inc: { seq: 1 } },
+    { new: true },
+    (err, doc) => err ? callback(err) : callback(null, doc.value.seq));
+}
+
+
 module.exports = (app, dbs) => {
   
-  app.get('/', (req, res) => res.json({error: 'Error: You need to add a proper url'}));
+  app.get('/', (req, res) => { 
+      //    Instantiate increment collection     
+      //     dbs.production.collection('counters').insert(
+      //    {
+      //       counter: "counter",
+      //       seq: 0
+      //    }
+      // )
+    res.json({error: 'Error: You need to add a proper url'})});
   
   app.get("/*", (req, res) => {
     
@@ -26,7 +44,6 @@ module.exports = (app, dbs) => {
       });
     }
     
-    
     if (validUrl.isUri(url)) {
       dbs.production.collection('shorten_urls')
         .find({url})
@@ -35,29 +52,18 @@ module.exports = (app, dbs) => {
             console.log(err)
             res.error(err)
           } else if (!urlArr[0]) {
-            dbs.production.collection('shorten_urls')
-              .find()
-              .sort({short_url:-1})
-              .limit(1)
-              .toArray((err, lastUrl) => {
-
-                const newUrl = {
-                  url,
-                  short_url: lastUrl[0] ? lastUrl[0].short_url + 1 : 1
-                }
-
-                dbs.production.collection('shorten_urls').insertOne(newUrl, (err, docs) => {
-                  if (err) {
-                    console.log(err)
-                    res.error(err)
-                  } else {
-                    res.json({
-                      url: newUrl.url,
-                      short_url: fullUrl + newUrl.short_url
-                    })
-                  }
+            getNextSequence('counter', dbs, (err, result) => {
+              if(!err) {
+                dbs.production.collection('shorten_urls').insert({url, short_url: result}, (err, done) => {
+                   if (err) {
+                      console.log(err)
+                      res.error(err)
+                    } else {
+                      res.json({url, short_url: fullUrl + result})
+                    }
                 })
-              })
+              }
+            });
           } else {
             res.json({
                 url: urlArr[0].url,
