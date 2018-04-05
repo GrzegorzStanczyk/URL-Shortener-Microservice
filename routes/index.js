@@ -1,4 +1,5 @@
 const validUrl = require('valid-url');
+const getNextSequence = require('../counter');
 
 function getNextSequence(counter, dbs, callback) {
  dbs.production.collection('counters').findAndModify(
