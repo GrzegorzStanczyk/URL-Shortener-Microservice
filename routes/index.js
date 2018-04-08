@@ -1,27 +1,17 @@
 const validUrl = require('valid-url');
 const getNextSequence = require('../counter');
 
-function getNextSequence(counter, dbs, callback) {
- dbs.production.collection('counters').findAndModify(
-    { "counter": counter },
-     [],
-    { $inc: { seq: 1 } },
-    { new: true },
-    (err, doc) => err ? callback(err) : callback(null, doc.value.seq));
-}
-
+//    Instantiate increment collection     
+//     dbs.production.collection('counters').insert(
+//    {
+//       counter: "counter",
+//       seq: 0
+//    }
+// )
 
 module.exports = (app, dbs) => {
   
-  app.get('/', (req, res) => { 
-      //    Instantiate increment collection     
-      //     dbs.production.collection('counters').insert(
-      //    {
-      //       counter: "counter",
-      //       seq: 0
-      //    }
-      // )
-    res.json({error: 'Error: You need to add a proper url'})});
+  app.get('/', (req, res) => res.json({error: 'Error: You need to add a proper url'}));
   
   app.get("/*", (req, res) => {
     
